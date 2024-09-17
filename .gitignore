@@ -40,3 +40,27 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+# Expo
+node_modules/
+.expo/
+.yarn/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+cache/
+android/
+ios/
+*.tar.gz
+*.apk
+*.aab
+*.xapk
+*.ipa
+*.app
+*.dSYM.zip

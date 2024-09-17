@@ -1,0 +1,9 @@
+{
+  "name": "today",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/today/src",
+  "projectType": "application",
+  "tags": ["type:app"],
+  "// targets": "to see all targets run: nx show project today --web",
+  "targets": {}
+}
