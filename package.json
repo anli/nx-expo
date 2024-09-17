@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ci": "nx run-many -t lint --fix && nx run-many -t test && nx format:write",
+    "ci": "nx run-many -t lint --fix && nx run-many -t type-check && nx run-many -t test && nx format:write",
     "build": "nx run-many -t build --local --platform ios --profile preview && nx run-many -t build --local --platform android --profile preview"
   },
   "private": true,
