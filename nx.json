@@ -42,5 +42,10 @@
         "targetName": "test"
       }
     }
-  ]
+  ],
+  "targetDefaults": {
+    "type-check": {
+      "cache": true
+    }
+  }
 }
