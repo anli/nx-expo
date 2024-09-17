@@ -34,7 +34,9 @@
     "react-native-screens": "*",
     "expo-linking": "*",
     "expo-constants": "*",
-    "expo-status-bar": "*"
+    "expo-status-bar": "*",
+    "react-native-paper": "*",
+    "twrnc": "*"
   },
   "scripts": {
     "eas-build-post-install": "cd ../../ && node tools/scripts/eas-build-post-install.mjs . apps/today",

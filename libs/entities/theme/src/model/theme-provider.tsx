@@ -6,6 +6,7 @@ import {
 } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
+import { PaperProvider } from 'react-native-paper';
 
 const ThemeContext = createContext<undefined>(undefined);
 
@@ -22,7 +23,9 @@ export const useTheme = () => {
 
 export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => (
   <ThemeContext.Provider value={undefined}>
-    <StatusBar />
-    {children}
+    <PaperProvider>
+      <StatusBar />
+      {children}
+    </PaperProvider>
   </ThemeContext.Provider>
 );
