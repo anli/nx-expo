@@ -1,19 +1,10 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
-  "plugins": [
-    "@nx"
-  ],
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -50,22 +41,15 @@
               },
               {
                 "sourceTag": "type:features",
-                "onlyDependOnLibsWithTags": [
-                  "type:entities",
-                  "type:shared"
-                ]
+                "onlyDependOnLibsWithTags": ["type:entities", "type:shared"]
               },
               {
                 "sourceTag": "type:entities",
-                "onlyDependOnLibsWithTags": [
-                  "type:shared"
-                ]
+                "onlyDependOnLibsWithTags": ["type:shared"]
               },
               {
                 "sourceTag": "type:shared",
-                "onlyDependOnLibsWithTags": [
-                  "type:shared"
-                ]
+                "onlyDependOnLibsWithTags": ["type:shared"]
               }
             ]
           }
@@ -73,10 +57,7 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "files": ["*.ts", "*.tsx"],
       "extends": [
         "plugin:@nx/typescript",
         "eslint:recommended",
@@ -87,14 +68,8 @@
         "plugin:react-hooks/recommended"
       ],
       "rules": {
-        "quotes": [
-          "error",
-          "single"
-        ],
-        "semi": [
-          "error",
-          "always"
-        ],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
         "import/order": [
           "error",
           {
@@ -122,9 +97,7 @@
                 "group": "builtin"
               }
             ],
-            "pathGroupsExcludedImportTypes": [
-              "builtin"
-            ],
+            "pathGroupsExcludedImportTypes": ["builtin"],
             "newlines-between": "always"
           }
         ],
@@ -135,27 +108,25 @@
             "ignoreExternal": true
           }
         ],
-        "arrow-body-style": [
-          "error",
-          "as-needed"
-        ],
+        "arrow-body-style": ["error", "as-needed"],
         "react/display-name": "off",
         "react/react-in-jsx-scope": "off",
         "no-console": "error",
         "no-shadow": "off",
         "no-undef": "off",
         "@typescript-eslint/no-shadow": "error",
-        "react-hooks/exhaustive-deps": "error"
+        "react-hooks/exhaustive-deps": "error",
+        "react-native/no-raw-text": [
+          "error",
+          {
+            "skip": ["Button"]
+          }
+        ]
       }
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/javascript"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     }
   ]
