@@ -1,10 +1,19 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "ignorePatterns": [
+    "**/*"
+  ],
+  "plugins": [
+    "@nx"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -13,8 +22,50 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": [
+                  "type:pages",
+                  "type:widgets",
+                  "type:features",
+                  "type:entities",
+                  "type:shared"
+                ]
+              },
+              {
+                "sourceTag": "type:pages",
+                "onlyDependOnLibsWithTags": [
+                  "type:widgets",
+                  "type:features",
+                  "type:entities",
+                  "type:shared"
+                ]
+              },
+              {
+                "sourceTag": "type:widgets",
+                "onlyDependOnLibsWithTags": [
+                  "type:features",
+                  "type:entities",
+                  "type:shared"
+                ]
+              },
+              {
+                "sourceTag": "type:features",
+                "onlyDependOnLibsWithTags": [
+                  "type:entities",
+                  "type:shared"
+                ]
+              },
+              {
+                "sourceTag": "type:entities",
+                "onlyDependOnLibsWithTags": [
+                  "type:shared"
+                ]
+              },
+              {
+                "sourceTag": "type:shared",
+                "onlyDependOnLibsWithTags": [
+                  "type:shared"
+                ]
               }
             ]
           }
@@ -22,13 +73,89 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@nx/typescript",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react-native/all",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:react-hooks/recommended"
+      ],
+      "rules": {
+        "quotes": [
+          "error",
+          "single"
+        ],
+        "semi": [
+          "error",
+          "always"
+        ],
+        "import/order": [
+          "error",
+          {
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            },
+            "warnOnUnassignedImports": true,
+            "groups": [
+              "builtin",
+              "external",
+              "internal",
+              "parent",
+              "sibling",
+              "index",
+              "unknown"
+            ],
+            "pathGroups": [
+              {
+                "pattern": "react",
+                "group": "builtin"
+              },
+              {
+                "pattern": "react-native",
+                "group": "builtin"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": [
+              "builtin"
+            ],
+            "newlines-between": "always"
+          }
+        ],
+        "import/no-cycle": [
+          "error",
+          {
+            "maxDepth": 2,
+            "ignoreExternal": true
+          }
+        ],
+        "arrow-body-style": [
+          "error",
+          "as-needed"
+        ],
+        "react/display-name": "off",
+        "react/react-in-jsx-scope": "off",
+        "no-console": "error",
+        "no-shadow": "off",
+        "no-undef": "off",
+        "@typescript-eslint/no-shadow": "error",
+        "react-hooks/exhaustive-deps": "error"
+      }
     },
     {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@nx/javascript"
+      ],
       "rules": {}
     }
   ]
