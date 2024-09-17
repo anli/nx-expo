@@ -18,4 +18,5 @@ module.exports = {
       require.resolve('jest-expo/src/preset/assetFileTransformer.js'),
   },
   coverageDirectory: '../../coverage/apps/today',
+  passWithNoTests: true,
 };
