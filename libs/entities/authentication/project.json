@@ -1,0 +1,19 @@
+{
+  "name": "entities-authentication",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/entities/authentication/src",
+  "projectType": "library",
+  "tags": ["type:entities"],
+  "// targets": "to see all targets run: nx show project entities-authentication --web",
+  "targets": {
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/entities/authentication",
+        "commands": ["tsc -p tsconfig.lib.json --noEmit"],
+        "forwardAllArgs": false,
+        "description": "Type check with tsc"
+      }
+    }
+  }
+}

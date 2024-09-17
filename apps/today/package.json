@@ -28,12 +28,19 @@
     "tslib": "*",
     "@expo/metro-config": "*",
     "react-native-svg-transformer": "*",
-    "expo-build-properties": "*"
+    "expo-build-properties": "*",
+    "expo-router": "*",
+    "react-native-safe-area-context": "*",
+    "react-native-screens": "*",
+    "expo-linking": "*",
+    "expo-constants": "*",
+    "expo-status-bar": "*"
   },
   "scripts": {
     "eas-build-post-install": "cd ../../ && node tools/scripts/eas-build-post-install.mjs . apps/today",
     "android": "expo run:android",
     "ios": "expo run:ios"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "main": "index.js"
 }
