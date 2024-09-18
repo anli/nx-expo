@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FlatList } from 'react-native';
 
-import { useSession } from '@entities/authentication';
+import { useLogout } from '@entities/authentication';
 import { tw } from '@shared/ui';
 import { router, Stack } from 'expo-router';
 import { Appbar, Checkbox, FAB, List } from 'react-native-paper';
@@ -14,17 +14,16 @@ type Task = {
 };
 
 export default function Tasks() {
-  const { logout } = useSession();
+  const { mutate: logout } = useLogout({
+    onSuccess: () => {
+      router.replace('/');
+    },
+  });
   const [tasks] = useState<Task[]>([
     { id: '1', name: 'Task 1' },
     { id: '2', name: 'Task 2' },
     { id: '3', name: 'Task 3' },
   ]);
-
-  const handleLogout = () => {
-    logout?.();
-    router.replace('/');
-  };
 
   return (
     <>
@@ -34,7 +33,7 @@ export default function Tasks() {
           header: () => (
             <Appbar.Header mode="medium">
               <Appbar.Content title="Tasks" />
-              <Appbar.Action icon="logout" onPress={handleLogout} />
+              <Appbar.Action icon="logout" onPress={logout} />
             </Appbar.Header>
           ),
         }}

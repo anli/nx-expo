@@ -36,7 +36,15 @@
     "expo-constants": "*",
     "expo-status-bar": "*",
     "react-native-paper": "*",
-    "twrnc": "*"
+    "twrnc": "*",
+    "@react-navigation/native": "*",
+    "tiny-invariant": "*",
+    "@react-native-async-storage/async-storage": "*",
+    "@supabase/supabase-js": "*",
+    "@hookform/resolvers": "*",
+    "react-hook-form": "*",
+    "yup": "*",
+    "react-native-url-polyfill": "*"
   },
   "scripts": {
     "eas-build-post-install": "cd ../../ && node tools/scripts/eas-build-post-install.mjs . apps/today",

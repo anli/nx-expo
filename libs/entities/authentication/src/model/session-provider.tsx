@@ -1,24 +1,22 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type FC,
   type PropsWithChildren,
 } from 'react';
 
-type Session = string;
+import { supabase } from '@shared/api';
+import type { Session } from '@supabase/supabase-js';
 
 const SessionContext = createContext<{
   data?: Session | null;
   isLoading: boolean;
-  login?: () => void;
-  logout?: () => void;
 }>({
   data: undefined,
   isLoading: true,
-  login: undefined,
-  logout: undefined,
 });
 
 export const useSession = () => {
@@ -34,16 +32,26 @@ export const useSession = () => {
 
 export const SessionProvider: FC<PropsWithChildren> = ({ children }) => {
   const [data, setData] = useState<Session | null | undefined>(undefined);
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    void supabase.auth.getSession().then(({ data: { session: _session } }) => {
+      setIsLoading(true);
+      setData(_session);
+      setIsLoading(false);
+    });
+
+    supabase.auth.onAuthStateChange((_event, _session) => {
+      setIsLoading(true);
+      setData(_session);
+      setIsLoading(false);
+    });
+  }, []);
 
   const value = useMemo(
     () => ({
       data,
       isLoading,
-      login: () => {
-        setData('ACCESS_TOKEN');
-      },
-      logout: () => setData(null),
     }),
     [data, isLoading]
   );

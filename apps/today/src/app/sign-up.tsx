@@ -1,6 +1,6 @@
 import { Alert, View } from 'react-native';
 
-import { useLoginWithEmail } from '@entities/authentication';
+import { useSignUpWithEmail } from '@entities/authentication';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { tw } from '@shared/ui';
 import { Link, router } from 'expo-router';
@@ -27,8 +27,8 @@ const schema = yup
   })
   .required();
 
-export default function Login() {
-  const { mutate: loginWithEmail, loading } = useLoginWithEmail({
+export default function SignUp() {
+  const { mutate: signUpWithEmail, loading } = useSignUpWithEmail({
     onSuccess: () => {
       router.replace('/');
     },
@@ -44,7 +44,7 @@ export default function Login() {
   return (
     <SafeAreaView style={tw`flex-1`}>
       <Text variant="displayMedium" style={tw`mx-4`}>
-        Login
+        Sign Up
       </Text>
 
       <View style={tw`h-4`} />
@@ -132,15 +132,15 @@ export default function Login() {
       <Button
         mode="contained"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onPress={handleSubmit(loginWithEmail)}
+        onPress={handleSubmit(signUpWithEmail)}
         style={tw`mx-4`}
         loading={loading}
       >
-        Login
+        Sign Up
       </Button>
-      <Link href="/sign-up" asChild>
+      <Link href="/login" asChild>
         <Button mode="text" style={tw`mx-4`}>
-          Don&apos;t have an account? Sign up
+          Already have an account? Login
         </Button>
       </Link>
     </SafeAreaView>
