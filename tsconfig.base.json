@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@entities/authentication": ["libs/entities/authentication/src/index.ts"],
+      "@entities/task": ["libs/entities/task/src/index.ts"],
       "@entities/theme": ["libs/entities/theme/src/index.ts"],
       "@shared/api": ["libs/shared/api/src/index.ts"],
       "@shared/ui": ["libs/shared/ui/src/index.ts"]

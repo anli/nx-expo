@@ -44,7 +44,8 @@
     "@hookform/resolvers": "*",
     "react-hook-form": "*",
     "yup": "*",
-    "react-native-url-polyfill": "*"
+    "react-native-url-polyfill": "*",
+    "@tanstack/react-query": "*"
   },
   "scripts": {
     "eas-build-post-install": "cd ../../ && node tools/scripts/eas-build-post-install.mjs . apps/today",
