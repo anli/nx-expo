@@ -1,13 +1,6 @@
 {
   "extends": ["plugin:@nx/react", "../../../.eslintrc.json"],
-  "ignorePatterns": [
-    "!**/*",
-    ".expo",
-    "web-build",
-    "cache",
-    "dist",
-    "**/database.types.ts"
-  ],
+  "ignorePatterns": ["!**/*", ".expo", "web-build", "cache", "dist"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -17,7 +10,7 @@
       "files": ["*.ts", "*.tsx"],
       "rules": {},
       "parserOptions": {
-        "project": ["libs/shared/api/tsconfig.*?.json"]
+        "project": ["libs/entities/task/tsconfig.*?.json"]
       }
     },
     {

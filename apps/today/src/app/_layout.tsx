@@ -1,5 +1,7 @@
 import { SessionProvider } from '@entities/authentication';
 import { ThemeProvider } from '@entities/theme';
+import { queryClient } from '@shared/api';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { SplashScreen, Stack } from 'expo-router';
 
 export { ErrorBoundary } from 'expo-router';
@@ -14,10 +16,12 @@ const defaultScreenOptions = {
 
 export default function RootLayout() {
   return (
-    <SessionProvider>
-      <ThemeProvider>
-        <Stack screenOptions={defaultScreenOptions} />
-      </ThemeProvider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>
+        <ThemeProvider>
+          <Stack screenOptions={defaultScreenOptions} />
+        </ThemeProvider>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }

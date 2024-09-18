@@ -1,16 +1,86 @@
-import { useState } from 'react';
-import { FlatList } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Alert, FlatList } from 'react-native';
 
 import { useLogout } from '@entities/authentication';
+import { taskMutations, taskQueries, type Task } from '@entities/task';
+import { queryClient } from '@shared/api';
 import { tw } from '@shared/ui';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { router, Stack } from 'expo-router';
-import { Appbar, Checkbox, FAB, List } from 'react-native-paper';
+import {
+  Appbar,
+  Checkbox,
+  IconButton,
+  List,
+  TextInput,
+} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-type Task = {
-  id: string;
-  name: string;
-  isCompleted?: boolean;
+const TaskListItem = (item: Task) => {
+  const { mutate: deleteTask, isPending: isPendingDeleteTask } = useMutation({
+    mutationFn: taskMutations.delete,
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey: taskQueries.all() });
+    },
+    onError: (error) => {
+      Alert.alert(error.message);
+    },
+  });
+  const { mutate: updateTask } = useMutation({
+    mutationFn: taskMutations.update,
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey: taskQueries.all() });
+    },
+    onError: (error) => {
+      Alert.alert(error.message);
+    },
+  });
+  const [isChecked, setIsChecked] = useState(!!item.isCompleted);
+
+  useEffect(() => {
+    setIsChecked((_checked) => item.isCompleted);
+  }, [item.isCompleted]);
+
+  const handleDeleteTask = () => {
+    Alert.alert('Are you sure you want to delete this task?', '', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => deleteTask(item.id),
+      },
+    ]);
+  };
+
+  const handleCompleteTask = () => {
+    setIsChecked((_isChecked) => !_isChecked);
+    updateTask({ id: item.id, isCompleted: !isChecked });
+  };
+
+  return (
+    <List.Item
+      title={item.name}
+      right={(props) => (
+        <>
+          <Checkbox.Android
+            {...props}
+            status={isChecked ? 'checked' : 'unchecked'}
+            onPress={handleCompleteTask}
+          />
+          <IconButton
+            {...props}
+            disabled={isPendingDeleteTask}
+            loading={isPendingDeleteTask}
+            icon="delete"
+            onPress={handleDeleteTask}
+          />
+        </>
+      )}
+    />
+  );
 };
 
 export default function Tasks() {
@@ -19,11 +89,27 @@ export default function Tasks() {
       router.replace('/');
     },
   });
-  const [tasks] = useState<Task[]>([
-    { id: '1', name: 'Task 1' },
-    { id: '2', name: 'Task 2' },
-    { id: '3', name: 'Task 3' },
-  ]);
+  const { data: listData } = useQuery(taskQueries.list());
+  const tasks = listData?.data;
+  const [newTask, setNewTask] = useState('');
+  const { mutate: createTask, isPending: isPendingCreateTask } = useMutation({
+    mutationFn: taskMutations.create,
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey: taskQueries.all() });
+      setNewTask('');
+    },
+    onError: (error) => {
+      Alert.alert(error.message);
+    },
+  });
+
+  const handleCreateTask = () => {
+    if (!newTask) {
+      return;
+    }
+
+    createTask({ name: newTask });
+  };
 
   return (
     <>
@@ -39,23 +125,24 @@ export default function Tasks() {
         }}
       />
       <SafeAreaView edges={['bottom']} style={tw`flex-1`}>
-        <FlatList
-          data={tasks}
-          renderItem={({ item }) => (
-            <List.Item
-              title={item.name}
-              right={(props) => (
-                <Checkbox.Android
-                  {...props}
-                  status={item?.isCompleted ? 'checked' : 'unchecked'}
-                />
-              )}
+        <TextInput
+          disabled={isPendingCreateTask}
+          value={newTask}
+          onChangeText={setNewTask}
+          placeholder="Enter a new task"
+          right={
+            <TextInput.Icon
+              disabled={isPendingCreateTask}
+              loading={isPendingCreateTask}
+              onPress={handleCreateTask}
+              icon="plus"
             />
-          )}
+          }
         />
-        <FAB
-          icon="plus"
-          style={tw`absolute ios:bottom-10 android:bottom-4 right-4`}
+        <FlatList
+          keyExtractor={(item) => item.id.toString()}
+          data={tasks}
+          renderItem={({ item }) => <TaskListItem {...item} />}
         />
       </SafeAreaView>
     </>
