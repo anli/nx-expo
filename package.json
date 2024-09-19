@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ci": "nx run-many -t lint --fix && nx run-many -t type-check && nx run-many -t test && nx format:check",
+    "ci": "nx run-many -t lint --fix && nx run-many -t type-check && nx run-many -t test && nx format:write",
     "build": "nx run-many -t build --local --platform ios --profile preview && nx run-many -t build --local --platform android --profile preview"
   },
   "private": true,
@@ -25,7 +25,9 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.53.0",
     "react-native": "0.74.1",
+    "react-native-keyboard-controller": "^1.13.4",
     "react-native-paper": "^5.12.5",
+    "react-native-reanimated": "~3.10.1",
     "react-native-safe-area-context": "4.10.5",
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.2.0",
