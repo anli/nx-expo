@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { supabase } from '@shared/api';
+import { queryClientDefaultOptions, supabase } from '@shared/api';
 import type { AuthError } from '@supabase/supabase-js';
 
 type UseLogoutProps = {
@@ -8,7 +8,10 @@ type UseLogoutProps = {
   onSuccess?: () => void;
 };
 
-export const useLogout = ({ onError, onSuccess }: UseLogoutProps = {}) => {
+export const useLogout = ({
+  onError = queryClientDefaultOptions.defaultOptions.mutations?.onError,
+  onSuccess,
+}: UseLogoutProps = {}) => {
   const [loading, setLoading] = useState(false);
 
   const mutateAsync = async () => {

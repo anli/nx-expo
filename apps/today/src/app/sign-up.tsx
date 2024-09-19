@@ -1,4 +1,4 @@
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useSignUpWithEmail } from '@entities/authentication';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -32,9 +32,6 @@ export default function SignUp() {
   const { mutate: signUpWithEmail, loading } = useSignUpWithEmail({
     onSuccess: () => {
       router.replace('/');
-    },
-    onError: (error) => {
-      Alert.alert('Error', error.message);
     },
   });
   const { control, handleSubmit } = useForm<SignUpFormValues>({
