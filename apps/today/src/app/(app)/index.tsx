@@ -5,10 +5,11 @@ import { useLogout } from '@entities/authentication';
 import { taskMutations, taskQueries, type Task } from '@entities/task';
 import { queryClient } from '@shared/api';
 import { tw } from '@shared/ui';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import { router, Stack } from 'expo-router';
 import { KeyboardStickyView } from 'react-native-keyboard-controller';
 import {
+  ActivityIndicator,
   Appbar,
   Checkbox,
   IconButton,
@@ -93,8 +94,13 @@ export default function Tasks() {
       router.replace('/');
     },
   });
-  const { data: listData } = useQuery(taskQueries.list());
-  const tasks = listData?.data;
+  const {
+    data: listData,
+    fetchNextPage,
+    isFetching,
+  } = useInfiniteQuery(taskQueries.list());
+  const tasks = listData?.pages.flat();
+
   const [newTask, setNewTask] = useState('');
   const { mutate: createTask, isPending: isPendingCreateTask } = useMutation({
     mutationFn: taskMutations.create,
@@ -120,6 +126,12 @@ export default function Tasks() {
     createTask({ name: newTask });
   };
 
+  const handleLoadMore = () => {
+    if (isFetching) return;
+
+    void fetchNextPage();
+  };
+
   return (
     <>
       <Stack.Screen
@@ -135,9 +147,13 @@ export default function Tasks() {
       />
       <SafeAreaView edges={['bottom']} style={tw`flex-1`}>
         <FlatList
+          ListFooterComponent={() =>
+            isFetching && <ActivityIndicator style={tw`mt-4`} />
+          }
           keyExtractor={(item) => item.id.toString()}
           data={tasks}
           renderItem={({ item }) => <TaskListItem {...item} />}
+          onEndReached={handleLoadMore}
         />
         <KeyboardStickyView offset={keyboardOffset}>
           <TextInput
