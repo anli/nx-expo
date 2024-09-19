@@ -1,19 +1,14 @@
 import { supabase } from '@shared/api';
 
-const calculatePage = (totalCount: number, limit: number) =>
-  Math.floor(totalCount / limit);
+export function getRange(page: number, limit: number) {
+  const from = page * limit;
+  const to = from + limit - 1;
+
+  return [from, to];
+}
 
 export const getTasks = async (page = 1, limit = 20) => {
-  const from = (page - 1) * limit;
-  const to = page * limit;
-  const { count, error: countError } = await supabase
-    .from('tasks')
-    .select('*', { count: 'exact', head: true });
-
-  if (countError) {
-    throw countError;
-  }
-
+  const [from, to] = getRange(page, limit);
   const { data, error } = await supabase
     .from('tasks')
     .select(
@@ -26,11 +21,5 @@ export const getTasks = async (page = 1, limit = 20) => {
     throw error;
   }
 
-  return {
-    data,
-    limit,
-    skip: from,
-    total: count,
-    totalPages: calculatePage(count ?? 0, limit),
-  };
+  return data;
 };
