@@ -45,7 +45,10 @@
     "react-hook-form": "*",
     "yup": "*",
     "react-native-url-polyfill": "*",
-    "@tanstack/react-query": "*"
+    "@tanstack/react-query": "*",
+    "ts-case-convert": "*",
+    "react-native-keyboard-controller": "*",
+    "react-native-reanimated": "*"
   },
   "scripts": {
     "eas-build-post-install": "cd ../../ && node tools/scripts/eas-build-post-install.mjs . apps/today",

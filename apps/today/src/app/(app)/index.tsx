@@ -7,6 +7,7 @@ import { queryClient } from '@shared/api';
 import { tw } from '@shared/ui';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { router, Stack } from 'expo-router';
+import { KeyboardStickyView } from 'react-native-keyboard-controller';
 import {
   Appbar,
   Checkbox,
@@ -14,7 +15,10 @@ import {
   List,
   TextInput,
 } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 const TaskListItem = (item: Task) => {
   const { mutate: deleteTask, isPending: isPendingDeleteTask } = useMutation({
@@ -102,6 +106,11 @@ export default function Tasks() {
       Alert.alert(error.message);
     },
   });
+  const { bottom } = useSafeAreaInsets();
+  const keyboardOffset = {
+    closed: 0,
+    opened: bottom,
+  };
 
   const handleCreateTask = () => {
     if (!newTask) {
@@ -125,25 +134,27 @@ export default function Tasks() {
         }}
       />
       <SafeAreaView edges={['bottom']} style={tw`flex-1`}>
-        <TextInput
-          disabled={isPendingCreateTask}
-          value={newTask}
-          onChangeText={setNewTask}
-          placeholder="Enter a new task"
-          right={
-            <TextInput.Icon
-              disabled={isPendingCreateTask}
-              loading={isPendingCreateTask}
-              onPress={handleCreateTask}
-              icon="plus"
-            />
-          }
-        />
         <FlatList
           keyExtractor={(item) => item.id.toString()}
           data={tasks}
           renderItem={({ item }) => <TaskListItem {...item} />}
         />
+        <KeyboardStickyView offset={keyboardOffset}>
+          <TextInput
+            disabled={isPendingCreateTask}
+            value={newTask}
+            onChangeText={setNewTask}
+            placeholder="Enter a new task"
+            right={
+              <TextInput.Icon
+                disabled={isPendingCreateTask}
+                loading={isPendingCreateTask}
+                onPress={handleCreateTask}
+                icon="plus"
+              />
+            }
+          />
+        </KeyboardStickyView>
       </SafeAreaView>
     </>
   );
