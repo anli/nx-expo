@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { supabase } from '@shared/api';
+import { queryClientDefaultOptions, supabase } from '@shared/api';
 import type {
   AuthError,
   Session,
@@ -14,7 +14,7 @@ type UseLoginWithEmailProps = {
 };
 
 export const useLoginWithEmail = ({
-  onError,
+  onError = queryClientDefaultOptions.defaultOptions.mutations?.onError,
   onSuccess,
 }: UseLoginWithEmailProps = {}) => {
   const [loading, setLoading] = useState(false);

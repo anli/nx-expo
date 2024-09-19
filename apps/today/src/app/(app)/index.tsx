@@ -27,17 +27,11 @@ const TaskListItem = (item: Task) => {
     onSettled: () => {
       void queryClient.invalidateQueries({ queryKey: taskQueries.all() });
     },
-    onError: (error) => {
-      Alert.alert(error.message);
-    },
   });
   const { mutate: updateTask } = useMutation({
     mutationFn: taskMutations.update,
     onSettled: () => {
       void queryClient.invalidateQueries({ queryKey: taskQueries.all() });
-    },
-    onError: (error) => {
-      Alert.alert(error.message);
     },
   });
   const [isChecked, setIsChecked] = useState(!!item.isCompleted);
@@ -107,9 +101,6 @@ export default function Tasks() {
     onSettled: () => {
       void queryClient.invalidateQueries({ queryKey: taskQueries.all() });
       setNewTask('');
-    },
-    onError: (error) => {
-      Alert.alert(error.message);
     },
   });
   const { bottom } = useSafeAreaInsets();

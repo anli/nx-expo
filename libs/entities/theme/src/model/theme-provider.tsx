@@ -5,7 +5,9 @@ import {
   type PropsWithChildren,
 } from 'react';
 
+import { tw, Toaster } from '@shared/ui';
 import { StatusBar } from 'expo-status-bar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { PaperProvider } from 'react-native-paper';
 
@@ -23,12 +25,15 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => (
-  <ThemeContext.Provider value={undefined}>
-    <PaperProvider>
-      <KeyboardProvider>
-        <StatusBar />
-        {children}
-      </KeyboardProvider>
-    </PaperProvider>
-  </ThemeContext.Provider>
+  <GestureHandlerRootView style={tw`flex-1`}>
+    <ThemeContext.Provider value={undefined}>
+      <PaperProvider>
+        <KeyboardProvider>
+          <StatusBar />
+          {children}
+          <Toaster />
+        </KeyboardProvider>
+      </PaperProvider>
+    </ThemeContext.Provider>
+  </GestureHandlerRootView>
 );
