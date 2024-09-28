@@ -64,3 +64,5 @@ ios/
 *.ipa
 *.app
 *.dSYM.zip
+*.keystore
+credentials.json
