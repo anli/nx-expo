@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ci": "nx run-many -t lint --fix && nx run-many -t type-check && nx run-many -t test && nx format:write",
-    "build": "nx run-many -t build --local --platform ios --profile preview && nx run-many -t build --local --platform android --profile preview"
+    "build": "nx run-many -t build --local --profile preview",
+    "build-android": "nx run-many -t build --local --platform android --profile preview --output preview.apk",
+    "build-ios": "nx run-many -t build --local --platform ios --profile preview"
   },
   "private": true,
   "dependencies": {
@@ -14,17 +16,17 @@
     "@react-native-async-storage/async-storage": "1.23.1",
     "@supabase/supabase-js": "^2.45.4",
     "@tanstack/react-query": "^5.56.2",
-    "expo": "~51.0.8",
+    "expo": "~51.0.34",
     "expo-build-properties": "~0.12.5",
     "expo-constants": "~16.0.2",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.23",
-    "expo-splash-screen": "~0.27.4",
+    "expo-splash-screen": "~0.27.6",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.53.0",
-    "react-native": "0.74.1",
+    "react-native": "0.74.5",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-keyboard-controller": "^1.13.4",
     "react-native-paper": "^5.12.5",
@@ -78,6 +80,6 @@
     "react-test-renderer": "18.2.0",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.5.2"
+    "typescript": "~5.3.3"
   }
 }

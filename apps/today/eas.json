@@ -11,8 +11,10 @@
     },
     "preview": {
       "distribution": "internal",
+      "credentialsSource": "local",
       "ios": {
-        "simulator": true
+        "simulator": false,
+        "enterpriseProvisioning": "adhoc"
       },
       "android": {
         "buildType": "apk"
