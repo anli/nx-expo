@@ -14,6 +14,14 @@
         "forwardAllArgs": false,
         "description": "Type check with tsc"
       }
+    },
+    "fastlane": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/today",
+        "commands": ["bundle exec fastlane"],
+        "parallel": false
+      }
     }
   }
 }
