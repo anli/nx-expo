@@ -6,7 +6,7 @@
     "ci": "nx run-many -t lint --fix && nx run-many -t type-check && nx run-many -t test && nx format:write",
     "build": "nx run-many -t build --local --profile preview",
     "build-android": "nx run-many -t build --local --platform android --profile preview --output preview.apk",
-    "build-ios": "nx run-many -t build --local --platform ios --profile preview"
+    "build-ios": "nx run-many -t build --local --platform ios --profile preview --output release.ipa"
   },
   "private": true,
   "dependencies": {
