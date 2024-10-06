@@ -1,0 +1,56 @@
+name: CD
+
+on:
+  pull_request:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
+jobs:
+  main:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # This enables task distribution via Nx Cloud
+      # Run this command as early as possible, before dependencdes are installed
+      # Learn more at https://nx.dev/cd/reference/nx-cloud-cli#npx-nxcloud-startcdrun
+      # - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          CREDENTIALS: ${{ secrets.CREDENTIALS }}
+          RELEASE_MOBILE_PROVISION: ${{ secrets.RELEASE_MOBILE_PROVISION }}
+          RELEASE_P12: ${{ secrets.RELEASE_P12 }}
+        run: |
+          echo $CREDENTIALS | base64 --decode > apps/today/credentials.json
+          echo $RELEASE_MOBILE_PROVISION | base64 --decode > apps/today/certs/release.mobileprovision
+          echo $RELEASE_P12 | base64 --decode > apps/today/certs/release.p12
+
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Run build
+        env:
+          NX_NO_CLOUD: true
+        run: |
+          yarn build-install
+          yarn build-ios
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release.ipa
+          path: apps/**/*.ipa
