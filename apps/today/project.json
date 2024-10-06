@@ -15,11 +15,43 @@
         "description": "Type check with tsc"
       }
     },
-    "fastlane": {
+    "bundle": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/today",
-        "commands": ["bundle exec fastlane"],
+        "commands": ["bundle"],
+        "parallel": false
+      }
+    },
+    "gem": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/today",
+        "commands": ["gem"],
+        "parallel": false
+      }
+    },
+    "pod-install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/today",
+        "commands": ["npx pod-install"],
+        "parallel": false
+      }
+    },
+    "build-install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/today",
+        "commands": ["bundle install"],
+        "parallel": false
+      }
+    },
+    "build-ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/today",
+        "commands": ["bundle exec fastlane ios build"],
         "parallel": false
       }
     }

@@ -73,3 +73,4 @@ credentials.json
 **/fastlane/.env
 *.cer
 *.pem
+*.base64
